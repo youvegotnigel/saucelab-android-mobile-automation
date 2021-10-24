@@ -13,8 +13,8 @@ Feature: Login Test
     Then I should see the text on label "<name>" displayed
 
     Examples:
-      | username          | password | name |
-      | tvcc.autosysadmin | tested   | AS   |
+      | username      | password     | name |
+      | standard_user | secret_sauce | AS   |
 
   Scenario Outline: DOCit_MOB_002 - Login with inactive user credintials
     Given The Application has been launched
@@ -25,8 +25,8 @@ Feature: Login Test
     Then I should see the text on label "<error_message>" displayed
 
     Examples:
-      | username              | password | error_message                   |
-      | tvcc.autoinactiveuser | tested   | Incorrect username or password. |
+      | username        | password | error_message                   |
+      | locked_out_user | secret_sauce   | Incorrect username or password. |
 
   @ignore
   Scenario: I should be able to login as any type of user
