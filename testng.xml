@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="DOCit Mobile UI Automation" parallel="tests">
+
+    <listeners>
+        <listener class-name="com.saucelabs.mobile.ui.utils.ListenerClass"/>
+    </listeners>
+    <test name="Cucumber Test">
+        <classes>
+            <class name="com.saucelabs.mobile.ui.runner.TestRunner"></class>
+        </classes>
+    </test>
+</suite>
