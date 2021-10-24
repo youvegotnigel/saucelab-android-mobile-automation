@@ -3,7 +3,7 @@ package com.saucelabs.mobile.ui.base;
 import com.google.common.io.Files;
 import com.saucelabs.mobile.ui.utils.GlobalVariable;
 import com.saucelabs.mobile.ui.utils.ListenerClass;
-import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.android.AndroidDriver;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,7 +28,7 @@ import java.util.regex.Pattern;
 
 public class TestBase {
 
-    private static ThreadLocal<IOSDriver> iOSDriver = new ThreadLocal<IOSDriver>();
+    private static ThreadLocal<AndroidDriver> AndroidDriver = new ThreadLocal<AndroidDriver>();
     public static EventFiringWebDriver eventFiringWebDriver;
     public static Properties config;
     private static final String fileSeparator = File.separator;
@@ -59,11 +59,36 @@ public class TestBase {
             case "browserstack":
                 setupBrowserStack();
                 break;
+
+            case "local":
+                setupAndroidLocal();
+                break;
         }
 
-        eventFiringWebDriver = new EventFiringWebDriver((WebDriver) getIosDriver());
+        eventFiringWebDriver = new EventFiringWebDriver((WebDriver) getAndroidDriver());
         ListenerClass listener = new ListenerClass();
         eventFiringWebDriver.register(listener);
+    }
+
+    private void setupAndroidLocal(){
+
+        DesiredCapabilities caps = new DesiredCapabilities();
+        caps.setCapability("platformName", "Android");
+        caps.setCapability("platformVersion", "10.0");
+        caps.setCapability("deviceName", "Android Emulator");
+        caps.setCapability("app",System.getProperty("user.dir") + "/apps/Android.SauceLabs.Mobile.Sample.app.2.7.1.apk");
+
+        String REMOTE_URL = "http://localhost:4723/wd/hub";
+        log.debug(REMOTE_URL);
+
+        URL url = null;
+        try {
+            url = new URL(REMOTE_URL);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        AndroidDriver.set(new AndroidDriver(url, caps));
     }
 
     private void setupSauceLabs(){
@@ -95,7 +120,7 @@ public class TestBase {
         capabilities.setCapability("tunnelIdentifier", "nigel-tunnel");
         //capabilities.setCapability("name", methodName);
 
-        iOSDriver.set(new IOSDriver(url, capabilities));
+        AndroidDriver.set(new AndroidDriver(url, capabilities));
     }
 
     private void setupBrowserStack(){
@@ -127,7 +152,7 @@ public class TestBase {
         capabilities.setCapability("autoAcceptAlerts", true);
         capabilities.setCapability("browserstack.local", true);
 
-        iOSDriver.set(new IOSDriver(url, capabilities));
+        AndroidDriver.set(new AndroidDriver(url, capabilities));
     }
 
     public void implicitWait(int time) {
@@ -177,7 +202,7 @@ public class TestBase {
     }
 
     public void waitForVisibility(By by) {
-        IOSDriver driver = getIosDriver();
+        AndroidDriver driver = getAndroidDriver();
         try {
             WebDriverWait wait = new WebDriverWait(driver, GlobalVariable.WAIT_TIME);
             wait.until(ExpectedConditions.visibilityOf(driver.findElement(by)));
@@ -187,7 +212,7 @@ public class TestBase {
     }
 
     public void waitForVisibilityByAccessibilityId(String id) {
-        IOSDriver driver = getIosDriver();
+        AndroidDriver driver = getAndroidDriver();
         try {
             WebDriverWait wait = new WebDriverWait(driver, GlobalVariable.WAIT_TIME);
             wait.until(ExpectedConditions.visibilityOf(driver.findElementByAccessibilityId(id)));
@@ -197,13 +222,13 @@ public class TestBase {
     }
 
     public void click(By by) {
-        IOSDriver driver = getIosDriver();
+        AndroidDriver driver = getAndroidDriver();
         waitForVisibility(by);
         driver.findElement(by).click();
     }
 
     public void clickByAccessibilityId(String id) {
-        IOSDriver driver = getIosDriver();
+        AndroidDriver driver = getAndroidDriver();
         waitForVisibilityByAccessibilityId(id);
         driver.findElementByAccessibilityId(id).click();
         log.debug("Element clicked on ::: "+ id);
@@ -211,25 +236,31 @@ public class TestBase {
     }
 
     public void setCheckBox(By by) {
-        IOSDriver driver = getIosDriver();
+        AndroidDriver driver = getAndroidDriver();
         waitForVisibility(by);
         driver.findElement(by).click();
     }
 
     public void sendText(By by, String text) {
-        IOSDriver driver = getIosDriver();
+        AndroidDriver driver = getAndroidDriver();
         waitForVisibility(by);
         driver.findElement(by).sendKeys(text);
     }
 
+    public void sendTextByAccessibilityId(String id, String text) {
+        AndroidDriver driver = getAndroidDriver();
+        waitForVisibilityByAccessibilityId(id);
+        driver.findElementByAccessibilityId(id).sendKeys(text);
+    }
+
     public String getText(By by) {
-        IOSDriver driver = getIosDriver();
+        AndroidDriver driver = getAndroidDriver();
         waitForVisibility(by);
         return  driver.findElement(by).getText();
     }
 
     public boolean isDisplayed(By by){
-        IOSDriver driver = getIosDriver();
+        AndroidDriver driver = getAndroidDriver();
         //waitForVisibility(by);
         try {
             return  driver.findElement(by).isDisplayed();
@@ -240,7 +271,7 @@ public class TestBase {
     }
 
     public boolean isDisplayedByAccessibilityId(String id){
-        IOSDriver driver = getIosDriver();
+        AndroidDriver driver = getAndroidDriver();
         try {
             return  driver.findElementByAccessibilityId(id).isDisplayed();
         }catch (NoSuchElementException e){
@@ -258,18 +289,18 @@ public class TestBase {
     }
 
     public void hideKeyboard() {
-        IOSDriver driver = getIosDriver();
+        AndroidDriver driver = getAndroidDriver();
         driver.hideKeyboard();
     }
 
     public void tearDown(){
         //((JavascriptExecutor)getIosDriver()).executeScript("sauce:job-result=" + (result.isSuccess() ? "passed" : "failed"));
-        getIosDriver().quit();
+        getAndroidDriver().quit();
         log.debug("Closing iOS driver");
     }
 
-    public  IOSDriver getIosDriver() {
-        return iOSDriver.get();
+    public AndroidDriver getAndroidDriver() {
+        return AndroidDriver.get();
     }
 
     public String decodeText(String text){
