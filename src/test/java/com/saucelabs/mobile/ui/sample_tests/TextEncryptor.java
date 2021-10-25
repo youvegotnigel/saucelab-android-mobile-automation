@@ -6,7 +6,7 @@ public class TextEncryptor {
 
     public static void main(String[] args) {
 
-        String sample = "tested";
+        String sample = "secret_sauce";
 
         System.out.println("Sample String: " + sample);
         System.out.println("Encoded String: " + encodeText(sample));

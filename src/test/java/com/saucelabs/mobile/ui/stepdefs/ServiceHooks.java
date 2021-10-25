@@ -51,7 +51,7 @@ public class ServiceHooks {
     @AfterStep
     public void takeScreenshotAfterEachStep(Scenario scenario){
         try {
-            TakesScreenshot screenshot = (TakesScreenshot) testBase.getIosDriver();
+            TakesScreenshot screenshot = (TakesScreenshot) testBase.getAndroidDriver();
             byte[] data = screenshot.getScreenshotAs(OutputType.BYTES);
             scenario.attach(data, "image/png", "Attachment");
             //log.debug("Screenshot taken");
@@ -86,6 +86,6 @@ public class ServiceHooks {
 
     @Attachment(value = "Screenshot", type = "image/png")
     public static byte[] takeScreenshotToAttachOnAllureReport() {
-        return ((TakesScreenshot) testBase.getIosDriver()).getScreenshotAs(BYTES);
+        return ((TakesScreenshot) testBase.getAndroidDriver()).getScreenshotAs(BYTES);
     }
 }

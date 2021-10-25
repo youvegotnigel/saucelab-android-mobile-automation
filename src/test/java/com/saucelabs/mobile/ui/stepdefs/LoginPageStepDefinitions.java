@@ -11,45 +11,68 @@ public class LoginPageStepDefinitions extends TestBase {
 
     @Given("The Application has been launched")
     public void application_is_launched() {
-        Assert.assertTrue(isDisplayedByAccessibilityId("usernameIcon"));
-        Assert.assertTrue(isDisplayedByAccessibilityId("passwordIcon"));
+        Assert.assertTrue(isDisplayedByAccessibilityId(loginPage.get_ACID_USERNAME()));
+        Assert.assertTrue(isDisplayedByAccessibilityId(loginPage.get_ACID_PASSWORD()));
     }
 
-    @And("User is logged into DOCit")
+    @And("User is logged into SauceLabs Mobile App")
     public void login_as_valid_user() {
         LoadConfigProperty();
-        sendText(loginPage.get_username_textbox_locator(), getGlobalVariable("_username"));
-        sendText(loginPage.get_password_textbox_locator(), decodeText(config.getProperty("_password")));
-        click(loginPage.get_login_button_locator());
-        click(loginPage.get_login_button_locator());
-        Assert.assertTrue(isDisplayedByAccessibilityId("AS"));
+        sendTextByAccessibilityId(loginPage.get_ACID_USERNAME(), getGlobalVariable("_username"));
+        sendTextByAccessibilityId(loginPage.get_ACID_PASSWORD(), decodeText(config.getProperty("_password")));
+        clickByAccessibilityId(loginPage.get_ACID_LOGIN());
+        Assert.assertTrue(isDisplayedByAccessibilityId(loginPage.get_ACID_MENU()));
     }
 
     @And("I log in as {string} user")
     public void login_as_any_user(String string) {
         LoadConfigProperty();
-        sendText(loginPage.get_username_textbox_locator(), string);
-        sendText(loginPage.get_password_textbox_locator(), decodeText(config.getProperty("_password")));
-        click(loginPage.get_login_button_locator());
+        sendTextByAccessibilityId(loginPage.get_ACID_USERNAME(), string);
+        sendTextByAccessibilityId(loginPage.get_ACID_PASSWORD(), decodeText(config.getProperty("_password")));
+        clickByAccessibilityId(loginPage.get_ACID_LOGIN());
+    }
+
+    @And("I log in as standard user")
+    public void login_as_standard_user() {
+        verticalScrollToExactText("standard_user");
+        clickByAccessibilityId(loginPage.get_ACID_STANDARD_USER());
+        clickByAccessibilityId(loginPage.get_ACID_LOGIN());
+        Assert.assertTrue(isDisplayedByAccessibilityId(loginPage.get_ACID_MENU()));
+    }
+
+    @And("I log in as locked out user")
+    public void login_as_locked_out_user() {
+        verticalScrollToExactText("locked_out_user");
+        clickByAccessibilityId(loginPage.get_ACID_LOCKED_OUT_USER());
+        clickByAccessibilityId(loginPage.get_ACID_LOGIN());
+        Assert.assertEquals(getText(loginPage.get_XPATH_LOCKED_OUT_USER_ERROR_MSG()), "Sorry, this user has been locked out.");
+    }
+
+    @And("I log in as problem user")
+    public void login_as_problem_user() {
+        verticalScrollToExactText("problem_user");
+        clickByAccessibilityId(loginPage.get_ACID_PROBLEM_USER());
+        clickByAccessibilityId(loginPage.get_ACID_LOGIN());
+        Assert.assertTrue(isDisplayedByAccessibilityId(loginPage.get_ACID_MENU()));
     }
 
     @And("I enter {string} in Username text box")
     public void enter_username(String string) {
-        sendText(loginPage.get_username_textbox_locator(), string);
+        sendTextByAccessibilityId(loginPage.get_ACID_USERNAME(), string);
     }
 
     @And("I enter {string} in Password text box")
     public void enter_password(String string) {
-        sendText(loginPage.get_password_textbox_locator(), string);
+        sendTextByAccessibilityId(loginPage.get_ACID_PASSWORD(), string);
     }
 
     @And("I tap on Login button")
     public void tab_login_button() {
-        click(loginPage.get_login_button_locator());
+        clickByAccessibilityId(loginPage.get_ACID_LOGIN());
     }
 
     @And("System should display {string} Error Message")
     public void display_error_message(String errorMsg) {
-
+        Assert.assertEquals(getText(loginPage.get_XPATH_LOCKED_OUT_USER_ERROR_MSG()), errorMsg);
     }
 }

@@ -23,7 +23,7 @@ public class GlobalVariable {
         try {
             config = new Properties();
             FileInputStream ip = new FileInputStream(
-                    System.getProperty("user.dir") + "//src//test//resources//config//config.properties");
+                    System.getProperty("user.dir") + "/src/test/java/resources/config/config.properties");
             config.load(ip);
             log.info("Properties file loaded successfully");
         }catch (Exception e){

@@ -5,19 +5,42 @@ import org.openqa.selenium.By;
 public class LoginPage extends BasePage{
 
     //Locators
-    private By login_btn = By.xpath("//*[@type = 'XCUIElementTypeButton' and @label = 'Login' and @name = 'Login']");
-    private By username_tb = By.xpath("//*[@type = 'XCUIElementTypeTextField']");
-    private By password_tb = By.xpath("//*[@type = 'XCUIElementTypeSecureTextField']");
+    private final String ACID_USERNAME = "test-Username";
+    private final String ACID_PASSWORD = "test-Password";
+    private final String ACID_LOGIN = "test-LOGIN";
 
-    public By get_login_button_locator(){
-        return login_btn;
+    private final String ACID_STANDARD_USER = "test-standard_user";
+    private final String ACID_LOCKED_OUT_USER = "test-locked_out_user";
+    private final String ACID_PROBLEM_USER = "test-problem_user";
+
+    private final By XPATH_LOCKED_OUT_USER_ERROR_MSG = By.xpath("//android.view.ViewGroup[@content-desc=\"test-Error message\"]/android.widget.TextView");
+
+
+    public String get_ACID_USERNAME(){
+        return ACID_USERNAME;
     }
 
-    public By get_username_textbox_locator(){
-        return username_tb;
+    public String get_ACID_PASSWORD(){
+        return ACID_PASSWORD;
     }
 
-    public By get_password_textbox_locator(){
-        return password_tb;
+    public String get_ACID_LOGIN(){
+        return ACID_LOGIN;
+    }
+
+    public String get_ACID_STANDARD_USER(){
+        return ACID_STANDARD_USER;
+    }
+
+    public String get_ACID_LOCKED_OUT_USER(){
+        return ACID_LOCKED_OUT_USER;
+    }
+
+    public String get_ACID_PROBLEM_USER(){
+        return ACID_PROBLEM_USER;
+    }
+
+    public By get_XPATH_LOCKED_OUT_USER_ERROR_MSG(){
+        return XPATH_LOCKED_OUT_USER_ERROR_MSG;
     }
 }

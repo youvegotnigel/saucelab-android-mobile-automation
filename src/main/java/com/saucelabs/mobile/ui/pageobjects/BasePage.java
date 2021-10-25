@@ -1,12 +1,10 @@
 package com.saucelabs.mobile.ui.pageobjects;
 
-import org.openqa.selenium.By;
-
 public class BasePage {
 
-    private By navigation_bar = By.xpath("//XCUIElementTypeStaticText[@name=\"${field_name}\"]|//XCUIElementTypeButton[@name=\"${field_name}\"]");
+    private final String ACID_MENU = "test-Menu";
 
-    public By getNavigation_bar(){
-        return navigation_bar;
+    public String get_ACID_MENU(){
+        return ACID_MENU;
     }
 }

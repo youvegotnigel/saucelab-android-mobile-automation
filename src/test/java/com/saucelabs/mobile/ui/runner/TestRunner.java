@@ -10,8 +10,8 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 @CucumberOptions(
-        features = "src/test/resources/features/default",
-        glue = {"com/vitalhub/docit/ui/stepdefs"},
+        features = "src/test/java/resources/features/default",
+        glue = {"com/saucelabs/mobile/ui/stepdefs"},
         tags = "@regression and not @ignore",
         dryRun = false,
         plugin = {
