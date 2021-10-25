@@ -15,7 +15,7 @@ public class LoginPageStepDefinitions extends TestBase {
         Assert.assertTrue(isDisplayedByAccessibilityId(loginPage.get_ACID_PASSWORD()));
     }
 
-    @And("User is logged into DOCit")
+    @And("User is logged into SauceLabs Mobile App")
     public void login_as_valid_user() {
         LoadConfigProperty();
         sendTextByAccessibilityId(loginPage.get_ACID_USERNAME(), getGlobalVariable("_username"));
@@ -67,6 +67,7 @@ public class LoginPageStepDefinitions extends TestBase {
 
     @And("System should display {string} Error Message")
     public void display_error_message(String errorMsg) {
+        Assert.assertEquals(getText(loginPage.get_XPATH_LOCKED_OUT_USER_ERROR_MSG()), errorMsg);
 
     }
 }
