@@ -50,16 +50,3 @@ Feature: Template
       | Sauce Labs Fleece Jacket          | $49.99     |
       | Sauce Labs Onesie                 | $7.99      |
       | Test.allTheThings() T-Shirt (Red) | $15.99     |
-
-    ## Ascending/Descending Order
-  Scenario: Template for Ascending/Descending Order Scenarios
-    Then Item 'names' should be in descending order
-    Then Item 'names' should be in ascending order
-    Then Item 'prices' should be in descending order
-    Then Item 'prices' should be in ascending order
-
-  Scenario: ## Table Ascending/Descending
-    Then Get values for "Name" column in table and verify strings in descending order
-    Then Get values for "ID" column in table and verify numbers in descending order
-    Then Get values for "Name" column in table and verify strings in ascending order
-    Then Get values for "ID" column in table and verify numbers in ascending order
