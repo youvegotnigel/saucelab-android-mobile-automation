@@ -3,6 +3,7 @@ package com.saucelabs.mobile.ui.base;
 import com.google.common.io.Files;
 import com.saucelabs.mobile.ui.utils.GlobalVariable;
 import com.saucelabs.mobile.ui.utils.ListenerClass;
+import io.appium.java_client.MobileBy;
 import io.appium.java_client.android.AndroidDriver;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
@@ -213,7 +214,7 @@ public class TestBase {
             WebDriverWait wait = new WebDriverWait(driver, GlobalVariable.WAIT_TIME);
             wait.until(ExpectedConditions.visibilityOf(driver.findElementByAccessibilityId(id)));
         }catch (Exception e){
-            log.debug("Element not found ::: " + id);
+            log.debug("Element by Accessibility Id not found ::: " + id);
         }
     }
 
@@ -221,6 +222,12 @@ public class TestBase {
         AndroidDriver driver = getAndroidDriver();
         waitForVisibility(by);
         driver.findElement(by).click();
+    }
+
+    public void verticalScrollToExactText(String exactText){
+        AndroidDriver driver = getAndroidDriver();
+        driver.findElement(MobileBy.AndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true)).setAsVerticalList()" +
+                ".scrollIntoView(new UiSelector().text(\"" + exactText +"\"));"));
     }
 
     public void clickByAccessibilityId(String id) {
