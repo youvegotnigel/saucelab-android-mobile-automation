@@ -1,4 +1,4 @@
-@regression @ignore
+@regression
 Feature: Login Test
 
   Background: User navigates to Application URL
