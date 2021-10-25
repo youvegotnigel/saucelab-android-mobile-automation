@@ -21,9 +21,9 @@ public class CreateEnvFile {
         LoadConfigProperty();
         //config = new Properties();
 
-        properties.setProperty("Platform", "iOS");
-        properties.setProperty("OS Version", "15.0.0");
-        properties.setProperty("AUT", "DOCit Mobile App");
+        properties.setProperty("Platform", "Android");
+        properties.setProperty("OS Version", "10.0");
+        properties.setProperty("AUT", "Sauce Labs Mobile App");
         FileWriter writer = null;
         try {
             writer = new FileWriter("allure-results\\environment.properties");
@@ -47,7 +47,7 @@ public class CreateEnvFile {
         try {
             //config = new Properties();
             FileInputStream ip = new FileInputStream(
-                    System.getProperty("user.dir") + "//src//test//resources//config//config.properties");
+                    System.getProperty("user.dir") + "/src/test/java/resources/config/config.properties");
             config.load(ip);
             log.info("Properties file loaded successfully");
         }catch (Exception e){
