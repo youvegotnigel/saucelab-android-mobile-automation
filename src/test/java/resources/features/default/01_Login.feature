@@ -4,8 +4,7 @@ Feature: Login Test
   Background: User navigates to Application URL
     Given The Application has been launched
 
-  Scenario Outline: DOCit_MOB_001 - Login Active user with a valid Credential
-    Given The Application has been launched
+  Scenario Outline: Login Active user with a valid Credential
     And I enter '<username>' in Username text box
     And I enter '<password>' in Password text box
     When I tap on Login button
@@ -13,20 +12,19 @@ Feature: Login Test
     Then I should see the text on label "<name>" displayed
 
     Examples:
-      | username      | password     | name |
-      | standard_user | secret_sauce | AS   |
+      | username      | password     | name                |
+      | standard_user | secret_sauce | test-Cart drop zone |
 
-  Scenario Outline: DOCit_MOB_002 - Login with inactive user credintials
-    Given The Application has been launched
+  Scenario Outline: Login with invalid user Credential
     And I enter '<username>' in Username text box
     And I enter '<password>' in Password text box
     When I tap on Login button
     And Wait for 5 seconds
-    Then I should see the text on label "<error_message>" displayed
+    Then System should display "<error_message>" Error Message
 
     Examples:
-      | username        | password | error_message                   |
-      | locked_out_user | secret_sauce   | Incorrect username or password. |
+      | username        | password     | error_message                         |
+      | locked_out_user | secret_sauce | Sorry, this user has been locked out. |
 
   @ignore
   Scenario: I should be able to login as any type of user
