@@ -34,20 +34,26 @@ public class LoginPageStepDefinitions extends TestBase {
 
     @And("I log in as standard user")
     public void login_as_standard_user() {
+        verticalScrollToExactText("standard_user");
         clickByAccessibilityId(loginPage.get_ACID_STANDARD_USER());
         clickByAccessibilityId(loginPage.get_ACID_LOGIN());
+        Assert.assertTrue(isDisplayedByAccessibilityId(loginPage.get_ACID_MENU()));
     }
 
     @And("I log in as locked out user")
     public void login_as_locked_out_user() {
+        verticalScrollToExactText("locked_out_user");
         clickByAccessibilityId(loginPage.get_ACID_LOCKED_OUT_USER());
         clickByAccessibilityId(loginPage.get_ACID_LOGIN());
+        Assert.assertEquals(getText(loginPage.get_XPATH_LOCKED_OUT_USER_ERROR_MSG()), "Sorry, this user has been locked out.");
     }
 
     @And("I log in as problem user")
     public void login_as_problem_user() {
+        verticalScrollToExactText("problem_user");
         clickByAccessibilityId(loginPage.get_ACID_PROBLEM_USER());
         clickByAccessibilityId(loginPage.get_ACID_LOGIN());
+        Assert.assertTrue(isDisplayedByAccessibilityId(loginPage.get_ACID_MENU()));
     }
 
     @And("I enter {string} in Username text box")
@@ -68,6 +74,5 @@ public class LoginPageStepDefinitions extends TestBase {
     @And("System should display {string} Error Message")
     public void display_error_message(String errorMsg) {
         Assert.assertEquals(getText(loginPage.get_XPATH_LOCKED_OUT_USER_ERROR_MSG()), errorMsg);
-
     }
 }
