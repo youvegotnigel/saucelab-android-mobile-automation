@@ -38,7 +38,7 @@ public class TestBase {
         try {
             config = new Properties();
             FileInputStream ip = new FileInputStream(
-                    System.getProperty("user.dir") + "//src//test//resources//config//config.properties");
+                    System.getProperty("user.dir") + "/src/test/java/resources/config/config.properties");
             config.load(ip);
             log.info("Properties file loaded successfully");
         }catch (Exception e){
@@ -50,7 +50,6 @@ public class TestBase {
     public void setup(){
         // loads the config options
         LoadConfigProperty();
-
         switch (config.getProperty("PLATFORM")) {
             case "saucelabs":
                 setupSauceLabs();
@@ -76,6 +75,8 @@ public class TestBase {
         caps.setCapability("platformName", "Android");
         caps.setCapability("platformVersion", "10.0");
         caps.setCapability("deviceName", "Android Emulator");
+        caps.setCapability("appPackage", "com.swaglabsmobileapp");
+        caps.setCapability("appActivity", "com.swaglabsmobileapp.MainActivity");
         caps.setCapability("app",System.getProperty("user.dir") + "/apps/Android.SauceLabs.Mobile.Sample.app.2.7.1.apk");
 
         String REMOTE_URL = "http://localhost:4723/wd/hub";
@@ -163,11 +164,6 @@ public class TestBase {
         WebDriverWait wait = new WebDriverWait(eventFiringWebDriver, 3000);
         wait.until(ExpectedConditions.visibilityOf(element));
     }
-
-    public void pageLoad(int time) {
-        eventFiringWebDriver.manage().timeouts().pageLoadTimeout(time, TimeUnit.SECONDS);
-    }
-
 
     public static String getTimestamp() {
         String currentDate = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss").format(new Date());
